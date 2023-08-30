@@ -1,12 +1,21 @@
 <script>
   import svelteLogo from './assets/svelte.svg'
   import viteLogo from '/vite.svg'
-  import Main from './lib/Main.svelte'
+  import Players from './lib/Players.svelte'
+  import Wheel from './lib/Wheel.svelte'
 </script>
 
 <main>
-  <Main/>
+  <div class="main-header">
+    <Players/>
+    <Wheel/>
+  </div>
 </main>
 
 <style>
+  .main-header {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
 </style>

@@ -15,6 +15,11 @@
             return;
         }
         faultyOption = true;
+        if(faultyOption) {
+            setInterval(() => {
+                faultyOption = false;
+            },5000);
+        }
     }
     const toggleMenu = () => {
         isMenuVisible = !isMenuVisible;
@@ -25,29 +30,28 @@
     }
 
 </script>
-<div class="site-title">
+<div class="player-screen">
     <div class="header-page">
         <input type="text" bind:value={inputValue}/>
         <div class="dropdown">
             <button on:click={toggleMenu}>{selectedRank || 'Rank'}</button>
             <button on:click={handlePress}>Add Player</button>
-            <p style="color: red" class="ErrorMessage" class:selected={faultyOption}> Please select rank first</p>
             <ul class="menu" class:selected={isMenuVisible}>
                 {#each ranks as rank} 
-                    <li><button on:click={() => {setRank(rank)}}>^ {rank}</button></li>
+                <li><button on:click={() => {setRank(rank)}}>^ {rank}</button></li>
                 {/each}
             </ul>
         </div>
+        </div>
+        {#if players.length > 0}
+        <div class="players">
+            {#each players as player}
+            <p class="individual-player">{player.name} {player.rank}</p>
+            {/each}
+        </div>
+        {/if}
+        <p style="color: red" class="ErrorMessage" class:selected={faultyOption}> Please select rank first</p>
     </div>
-    {#if players.length > 0}
-    <div class="players">
-        {#each players as player}
-        <p class="individual-player">{player.name} {player.rank}</p>
-        {/each}
-    </div>
-    {/if}
-</div>
-    
 <style>
     .individual-player {
         background:rgba(17, 29, 65, 0.694);
@@ -56,9 +60,10 @@
         margin:1rem;
 
     }
-    .site-title {
-        display:grid;
-        grid-template-columns: 1fr 1fr;
+    .player-screen {
+        margin:1rem;
+        display:flex;
+        flex-direction:column;
     }
     .players {
         border-radius: 10px;
@@ -72,20 +77,17 @@
     }
     .ErrorMessage {
         display:none;
-        position:absolute;
-        top:100%;
-        left:100%;
         background:rgba(1,1,1,.5);
         padding:1.25rem;
         border-radius:15px;
         box-shadow:0px 0px 8px 2px rgb(195, 59, 96);
         width:100%;
+        z-index:1;
     }
 
     .header-page {
         max-height:80px;
         background:gray;
-        margin:1rem;
         padding:1rem;
         border-radius: 5px;
         display:grid;
