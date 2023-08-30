@@ -52,10 +52,12 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: box-shadow 0.55s;
+  transition: background-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  background-color: rgb(63, 137, 161);
+  box-shadow: 0px 0px 2px 2px #ffffff;
 }
 button:focus,
 button:focus-visible {
