@@ -1,6 +1,4 @@
 <script>
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
   import Players from './lib/Players.svelte'
   import Wheel from './lib/Wheel.svelte'
 </script>

@@ -1,15 +1,18 @@
 <script>
+    import Wheel from './Wheel.svelte'
+    import { playersStore } from '../playerStore.js'
     let inputValue = ''
-    let players = [];
     let isMenuVisible = false;
     let faultyOption = false;
     let selectedRank = 'Rank'
+    let players = []
     const ranks = ['SSL','GC3','GC2','GC1','C3','C2','C1','Diamond','Platinum','Gold','Silver','BronzeLMAO']
 
     const handlePress = (event) => {
         if(ranks.includes(selectedRank) && inputValue.length >= 4) {
             faultyOption = false;
             players = [...players, {'name': inputValue, 'rank':selectedRank}]
+            playersStore.update((val) => val = players);
             inputValue = ''
             selectedRank = 'Rank'
             return;
