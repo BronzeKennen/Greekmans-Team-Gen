@@ -1,8 +1,12 @@
 <script>
     import {playersStore} from '../playerStore'
-
+    let wheels = [];
     let players = [];
-    playersStore.subscribe((val) => players = val);
+    let wheel;
+    playersStore.subscribe(async (val) => {
+        await Promise.resolve(players = val);
+        await Promise.resolve(setWheel(players));
+    });
     let wrapper;
     let degrees = 25000;
     let spinning = false;
@@ -10,6 +14,16 @@
         wrapper.style.transition = 'all 10s ease-out';
         wrapper.style.transform = `rotate(${degrees}deg)`;
         degrees+=10;
+    }
+    function setWheel(players) {
+        if(wheel) {
+            wheels.push(wheel);
+            wheels.forEach((wheel) => {
+                console.log(wheel);
+                wheel.style.transform = `rotate(calc(${360 / players.length}deg * var(--i)))`
+            })
+            return wheels;
+        }
     }
 
 
@@ -41,17 +55,15 @@
         box-shadow: 0 0  0 5px #333,
         0 0 0 15px #fff,
         0 0 0 18px #111;
-        border:1px red solid;
     }
     .player-info-in {
         position:absolute;
         width:50%;
         height:50%;
         transform-origin: bottom right;
-        border:1px yellow solid;
-        transform: rotate(calc(72deg * var(--i)));
+        transform: rotate(calc(45deg * var(--i)));
         background:var(--clr);
-        clip-path: polygon(0 0, 85% 0, 100% 100%, 1% 85%);
+        clip-path: polygon(0 0, 56% 0, 100% 100%, 0% 56%);
         display:flex;
         justify-content: center;
         align-items: center;
@@ -61,7 +73,8 @@
     .player-info-in span {
         position:relative;
         transform: rotate(calc(140deg));
-        font-size:2rem;
+        font-size:1.5rem;
+        font-weight: 700;
     }
 </style>
 
@@ -69,7 +82,7 @@
 <div class="wheel" bind:this={wrapper}>
     <div class="player-triangle">
     {#each players as player,index}
-        <div class="player-info-in" style="--i:{index};--clr:#{(index+1)*100};">
+        <div id="wheelItem"class="player-info-in" style="--i:{index};--clr:#{(index+1)*100};" bind:this={wheel}>
             <span>{player.name}</span>
         </div>
     {/each}
